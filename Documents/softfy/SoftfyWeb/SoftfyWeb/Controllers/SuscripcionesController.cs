@@ -22,7 +22,7 @@ namespace SoftfyWeb.Controllers
         }
 
         // Activar suscripción con plan
-        [Authorize(Roles = "OyenteFree")]
+        [Authorize(Roles = "Oyente")]
         [HttpPost("activar")]
         public async Task<IActionResult> Activar([FromBody] int planId)
         {
@@ -39,7 +39,8 @@ namespace SoftfyWeb.Controllers
             {
                 PlanId = plan.Id,
                 UsuarioPrincipalId = usuario.Id,
-                FechaInicio = DateTime.UtcNow
+                FechaInicio = DateTime.UtcNow,
+                FechaFin = DateTime.UtcNow.AddMonths(1), // Asumiendo que la suscripción es mensual
             };
 
             _context.Suscripciones.Add(suscripcion);
@@ -51,6 +52,7 @@ namespace SoftfyWeb.Controllers
                 UsuarioId = usuario.Id,
                 SuscripcionId = suscripcion.Id,
                 FechaAgregado = DateTime.UtcNow
+                
             };
 
             _context.MiembrosSuscripciones.Add(miembro);
@@ -59,6 +61,9 @@ namespace SoftfyWeb.Controllers
             // Cambiar rol
             await _userManager.RemoveFromRoleAsync(usuario, "Oyente");
             await _userManager.AddToRoleAsync(usuario, "OyentePremium");
+            // Actualizar propiedad personalizada 
+            usuario.TipoUsuario = "OyentePremium";
+            await _userManager.UpdateAsync(usuario);
 
             return Ok(new { mensaje = "Suscripción activada correctamente", plan = plan.Nombre });
         }
@@ -84,6 +89,7 @@ namespace SoftfyWeb.Controllers
                 plan = miembro.Suscripcion.Plan.Nombre,
                 precio = miembro.Suscripcion.Plan.Precio,
                 inicio = miembro.Suscripcion.FechaInicio,
+                fin = miembro.Suscripcion.FechaFin,
                 esTitular = miembro.Suscripcion.UsuarioPrincipalId == usuario.Id
             });
         }
@@ -127,8 +133,78 @@ namespace SoftfyWeb.Controllers
             // Cambiar rol
             await _userManager.RemoveFromRoleAsync(usuarioNuevo, "Oyente");
             await _userManager.AddToRoleAsync(usuarioNuevo, "OyentePremium");
+            await _userManager.UpdateSecurityStampAsync(usuarioNuevo);
+
 
             return Ok(new { mensaje = "Usuario agregado a la suscripción con éxito" });
         }
+        [Authorize]
+        [HttpDelete("eliminar-miembro")]
+        public async Task<IActionResult> EliminarMiembro([FromBody] EliminarMiembroDto dto)
+        {
+            var titular = await _userManager.GetUserAsync(User);
+
+            var suscripcion = await _context.Suscripciones
+                .Include(s => s.Miembros)
+                .FirstOrDefaultAsync(s => s.UsuarioPrincipalId == titular.Id);
+
+            if (suscripcion == null)
+                return BadRequest(new { mensaje = "No tienes una suscripción activa" });
+
+            var usuario = await _userManager.FindByEmailAsync(dto.Email);
+            if (usuario == null)
+                return NotFound(new { mensaje = "Usuario no encontrado" });
+
+            if (usuario.Id == titular.Id)
+                return BadRequest(new { mensaje = "No puedes eliminarte a ti mismo (titular)" });
+
+            var miembro = await _context.MiembrosSuscripciones
+                .FirstOrDefaultAsync(m => m.SuscripcionId == suscripcion.Id && m.UsuarioId == usuario.Id);
+
+            if (miembro == null)
+                return BadRequest(new { mensaje = "Este usuario no es miembro de tu suscripción" });
+
+            _context.MiembrosSuscripciones.Remove(miembro);
+            await _context.SaveChangesAsync();
+
+            // Cambiar rol a Oyente normal (si no está en otra suscripción)
+            var sigueEnOtra = await _context.MiembrosSuscripciones.AnyAsync(m => m.UsuarioId == usuario.Id);
+            if (!sigueEnOtra)
+            {
+                await _userManager.RemoveFromRoleAsync(usuario, "OyentePremium");
+                await _userManager.AddToRoleAsync(usuario, "Oyente");
+            }
+
+            return Ok(new { mensaje = "Miembro eliminado correctamente" });
+        }
+        [Authorize(Roles = "OyentePremium")]
+        [HttpPost("salir-de-suscripcion")]
+        public async Task<IActionResult> SalirDeSuscripcion()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            var miembro = await _context.MiembrosSuscripciones
+                .Include(m => m.Suscripcion)
+                .FirstOrDefaultAsync(m => m.UsuarioId == usuario.Id);
+
+            if (miembro == null)
+                return BadRequest(new { mensaje = "No perteneces a ninguna suscripción activa" });
+
+            // Verificar si es el titular
+            if (miembro.Suscripcion.UsuarioPrincipalId == usuario.Id)
+                return BadRequest(new { mensaje = "Eres el titular. Si deseas salir, debes cancelar la suscripción completa." });
+
+            _context.MiembrosSuscripciones.Remove(miembro);
+            await _context.SaveChangesAsync();
+
+            // Cambiar el rol
+            await _userManager.RemoveFromRoleAsync(usuario, "OyentePremium");
+            await _userManager.AddToRoleAsync(usuario, "Oyente");
+
+            return Ok(new { mensaje = "Has salido de la suscripción correctamente" });
+        }
+
+
     }
+
 }

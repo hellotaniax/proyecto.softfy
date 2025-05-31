@@ -242,3 +242,4 @@ C:\Users\soft\Documents\softfy\SoftfyWeb\SoftfyWeb\bin\Debug\net8.0\Microsoft.Id
 C:\Users\soft\Documents\softfy\SoftfyWeb\SoftfyWeb\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\soft\Documents\softfy\SoftfyWeb\SoftfyWeb\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\soft\Documents\softfy\SoftfyWeb\SoftfyWeb\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\soft\Documents\softfy\SoftfyWeb\SoftfyWeb\obj\Debug\net8.0\SoftfyWeb.sourcelink.json
