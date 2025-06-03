@@ -1,0 +1,21 @@
+﻿@model SoftfyWeb.Dtos.UsuarioRegistroDto
+<h2>Registrarse</h2>
+
+<form asp-action="Registro" method="post">
+    <input asp-for="Nombre" placeholder="Nombre" required />
+    <input asp-for="Apellido" placeholder="Apellido" required />
+    <input asp-for="Email" placeholder="Correo" required />
+    <input asp-for="Password" type="password" placeholder="Contraseña" required />
+
+    <select asp-for="TipoUsuario">
+        <option value="Oyente">Oyente</option>
+        <option value="Artista">Artista</option>
+    </select>
+
+    <button type="submit">Registrarse</button>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <p style="color:red">@ViewBag.Error</p>
+}

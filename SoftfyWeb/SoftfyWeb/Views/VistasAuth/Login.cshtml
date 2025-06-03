@@ -1,0 +1,13 @@
+﻿@model SoftfyWeb.Dtos.UsuarioLoginDto
+<h2>Iniciar Sesión</h2>
+
+<form asp-action="Login" method="post">
+    <input asp-for="Email" placeholder="Correo" required />
+    <input asp-for="Password" type="password" placeholder="Contraseña" required />
+    <button type="submit">Entrar</button>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <p style="color:red">@ViewBag.Error</p>
+}
