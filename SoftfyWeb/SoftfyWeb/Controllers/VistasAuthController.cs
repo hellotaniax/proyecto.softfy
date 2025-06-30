@@ -88,9 +88,11 @@ namespace SoftfyWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             Response.Cookies.Delete("jwt_token");
+            Response.Cookies.Delete("auth_cookie");
+            await HttpContext.SignOutAsync();
             return RedirectToAction("Login");
         }
         [HttpGet]

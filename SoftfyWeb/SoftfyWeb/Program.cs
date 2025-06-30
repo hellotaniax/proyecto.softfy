@@ -17,13 +17,13 @@ builder.Services.AddHttpClient("SoftfyApi", client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
-// 3) AutenticaciÛn con Cookie (almacena el JWT ahÌ)
+// 3) Autenticaci√≥n con Cookie (almacena el JWT ah√≠)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/VistasAuth/Login";
         options.LogoutPath = "/VistasAuth/Logout";
-        options.Cookie.Name = "jwt_token";
+        options.Cookie.Name = "auth_cookie";
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         options.ExpireTimeSpan = TimeSpan.FromHours(2);
@@ -34,12 +34,12 @@ var app = builder.Build();
 // 4) Middleware de excepciones y HSTS
 if (app.Environment.IsDevelopment())
 {
-    // En Dev, ver·s el stack completo en pantalla
+    // En Dev, ver√°s el stack completo en pantalla
     app.UseDeveloperExceptionPage();
 }
 else
 {
-    // En Prod, redirige a tu acciÛn Error
+    // En Prod, redirige a tu acci√≥n Error
     app.UseExceptionHandler("/VistasCanciones/Error");
     app.UseHsts();
 }
@@ -50,7 +50,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// 6) AutenticaciÛn / AutorizaciÛn
+// 6) Autenticaci√≥n / Autorizaci√≥n
 app.UseAuthentication();
 app.UseAuthorization();
 
