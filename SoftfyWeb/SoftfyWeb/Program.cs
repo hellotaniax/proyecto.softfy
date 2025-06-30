@@ -1,83 +1,63 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using SoftfyWeb.Data; 
-using SoftfyWeb.Modelos;
-using SoftfyWeb.Services;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace SoftfyWeb
+var builder = WebApplication.CreateBuilder(args);
+
+// 1) Servicios
+builder.Services.AddControllersWithViews();
+
+// 2) HttpClient nombrado
+builder.Services.AddHttpClient("SoftfyApi", client =>
 {
-    public class Program
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]);  // p.ej. "https://localhost:7003/api/"
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
+// 3) Autenticación con Cookie (almacena el JWT ahí)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+        options.LoginPath = "/VistasAuth/Login";
+        options.LogoutPath = "/VistasAuth/Logout";
+        options.Cookie.Name = "jwt_token";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+    });
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<JwtService>();
-            builder.Services.AddHttpClient();
+var app = builder.Build();
 
-
-            // Configurar DbContext con PostgreSQL
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-            // Configurar Identity con soporte de roles
-            builder.Services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                        ValidAudience = builder.Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-                    };
-                });
-
-
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthentication(); // Necesario para Identity
-            app.UseAuthorization();
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=VistasAuth}/{action=Login}/{id?}");
-            using (var scope = app.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                await SeedData.InicializarRolesAsync(services);
-                await SeedData.CrearUsuarioInicialAsync(services);
-
-            }
-            app.Run();
-        }
-    }
+// 4) Middleware de excepciones y HSTS
+if (app.Environment.IsDevelopment())
+{
+    // En Dev, verás el stack completo en pantalla
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    // En Prod, redirige a tu acción Error
+    app.UseExceptionHandler("/VistasCanciones/Error");
+    app.UseHsts();
+}
+
+// 5) Resto del pipeline
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+// 6) Autenticación / Autorización
+app.UseAuthentication();
+app.UseAuthorization();
+
+// 7) Mapear rutas MVC
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
+
+app.Run();

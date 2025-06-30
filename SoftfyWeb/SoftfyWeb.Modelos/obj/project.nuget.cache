@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "J7YCeOvx79yJvkzCnmwp92tBp3BqscYH2w2qck6l4gML3DBFXsS1Qig+lCEB5tqfj+oe+Tk33WpCpd+CgoBaKg==",
+  "dgSpecHash": "++SrN5cTGSY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\soft\\Documents\\softfy\\SoftfyWeb\\SoftfyWeb.Modelos\\SoftfyWeb.Modelos.csproj",
+  "projectFilePath": "C:\\Users\\soft\\Documents\\softfy\\SoftfyWeb_backup\\SoftfyWeb\\SoftfyWeb.Modelos\\SoftfyWeb.Modelos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\soft\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.0\\microsoft.aspnetcore.cryptography.internal.8.0.0.nupkg.sha512",
     "C:\\Users\\soft\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.0\\microsoft.aspnetcore.cryptography.keyderivation.8.0.0.nupkg.sha512",

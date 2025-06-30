@@ -11,11 +11,10 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("SoftfyWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7a24bdd9e33d36b1f27cc8f953395df6ef06592")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b30206957dedb5288419eb8f9f011b62b4928f4")]
 [assembly: System.Reflection.AssemblyProductAttribute("SoftfyWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SoftfyWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

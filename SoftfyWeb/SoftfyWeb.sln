@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftfyWeb", "SoftfyWeb\Soft
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftfyWeb.Modelos", "SoftfyWeb.Modelos\SoftfyWeb.Modelos.csproj", "{9ECCA581-25B8-434F-9FC2-006888207B5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softfy.API", "Softfy.API\Softfy.API.csproj", "{4FCE1F5B-659F-432A-AB8A-AD412127B869}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9ECCA581-25B8-434F-9FC2-006888207B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ECCA581-25B8-434F-9FC2-006888207B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ECCA581-25B8-434F-9FC2-006888207B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FCE1F5B-659F-432A-AB8A-AD412127B869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FCE1F5B-659F-432A-AB8A-AD412127B869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FCE1F5B-659F-432A-AB8A-AD412127B869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FCE1F5B-659F-432A-AB8A-AD412127B869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

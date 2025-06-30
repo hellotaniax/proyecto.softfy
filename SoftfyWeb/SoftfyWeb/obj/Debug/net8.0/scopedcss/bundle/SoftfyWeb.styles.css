@@ -47,3 +47,8 @@ button.accept-policy[b-s07if6b5kw] {
   white-space: nowrap;
   line-height: 60px;
 }
+body[b-s07if6b5kw] {
+    background-color: #1c1c1c;
+    color: white; /* Opcional: para que el texto no se vea negro sobre negro */
+}
+
