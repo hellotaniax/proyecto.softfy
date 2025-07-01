@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/VistasAuth/Login";
         options.LogoutPath = "/VistasAuth/Logout";
-        options.Cookie.Name = "jwt_token";
+        options.Cookie.Name = "auth_cookie";
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         options.ExpireTimeSpan = TimeSpan.FromHours(2);
@@ -34,13 +34,13 @@ var app = builder.Build();
 // 4) Middleware de excepciones y HSTS
 if (app.Environment.IsDevelopment())
 {
-    // En Dev, verás el stack completo en pantalla
+    //In Dev, seethefull stack on screen
     app.UseDeveloperExceptionPage();
 }
 else
 {
     // En Prod, redirige a tu acción Error
-    app.UseExceptionHandler("/VistasCanciones/Error");
+    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 

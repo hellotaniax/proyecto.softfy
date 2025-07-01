@@ -73,8 +73,21 @@ namespace SoftfyWeb.Controllers
             var json = await response.Content.ReadAsStringAsync();
             var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             var lista = JsonSerializer.Deserialize<List<CancionRespuestaDto>>(json, opts);
+
+            // Asignar la URL completa para cada archivo, usando el endpoint correcto
+            foreach (var cancion in lista)
+            {
+                // Si UrlArchivo contiene una ruta completa, extraer solo el nombre del archivo
+                var nombreArchivo = Path.GetFileName(cancion.UrlArchivo);
+
+                // Asignar la URL correcta con el nombre del archivo
+                cancion.UrlArchivo = $"https://localhost:7003/api/canciones/reproducir/{nombreArchivo}";
+            }
+
             return View(lista);
         }
+
+
 
         // 3) Formulario de creación
         [Authorize(Roles = "Artista")]

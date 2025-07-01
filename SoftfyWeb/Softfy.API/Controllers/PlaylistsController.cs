@@ -21,7 +21,7 @@ namespace SoftfyWeb.Controllers
         }
 
         // Crear una nueva playlist personalizada
-        [Authorize(Roles = "OyentePremium")]
+        [Authorize(Roles = "OyentePremium,Artista")]
         [HttpPost("crear")]
         public async Task<IActionResult> CrearPlaylist([FromBody] string nombre)
         {
@@ -39,8 +39,7 @@ namespace SoftfyWeb.Controllers
 
             return Ok(new { mensaje = "Playlist creada", playlistId = playlist.Id });
         }
-
-        [Authorize(Roles = "OyentePremium")]
+        [Authorize(Roles = "OyentePremium,Artista")]
         [HttpGet("mis-playlists")]
         public async Task<IActionResult> ObtenerPlaylists()
         {
@@ -59,8 +58,7 @@ namespace SoftfyWeb.Controllers
             return Ok(playlists);
         }
 
-
-        [Authorize(Roles = "OyentePremium")]
+        [Authorize(Roles = "OyentePremium,Artista")]
         [HttpGet("{id}/canciones")]
         public async Task<IActionResult> ObtenerCanciones(int id)
         {
@@ -78,7 +76,8 @@ namespace SoftfyWeb.Controllers
 
             return Ok(canciones);
         }
-        [Authorize(Roles = "OyentePremium")]
+
+        [Authorize(Roles = "OyentePremium,Artista")]
         [HttpPost("{playlistId}/agregar/{cancionId}")]
         public async Task<IActionResult> AgregarCancion(int playlistId, int cancionId)
         {
@@ -130,7 +129,7 @@ namespace SoftfyWeb.Controllers
             return Ok(new { mensaje = "Canción removida de la playlist" });
         }
 
-        [Authorize(Roles = "OyentePremium")]
+        [Authorize(Roles = "OyentePremium,Artista")]
         [HttpPut("{playlistId}/renombrar")]
         public async Task<IActionResult> RenombrarPlaylist(int playlistId, [FromBody] string nuevoNombre)
         {
@@ -148,7 +147,7 @@ namespace SoftfyWeb.Controllers
             return Ok(new { mensaje = "Nombre de playlist actualizado", nuevoNombre });
         }
 
-        [Authorize(Roles = "OyentePremium")]
+        [Authorize(Roles = "OyentePremium,Artista")]
         [HttpDelete("{playlistId}/eliminar")]
         public async Task<IActionResult> EliminarPlaylist(int playlistId)
         {

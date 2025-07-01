@@ -38,17 +38,18 @@ namespace SoftfyWeb.Controllers
             if (!allowedExtensions.Contains(fileExtension))
                 return BadRequest("El tipo de archivo no es compatible. Solo se permiten archivos .mp3 y .wav.");
 
-            // Ruta donde se guardará el archivo de la canción
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "ArchivosCanciones", archivoCancion.FileName);
+            // Rutas para almacenar el archivo de la canción
+            var relativePath = Path.Combine("ArchivosCanciones", archivoCancion.FileName);
+            var absolutePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
 
             // Asegurarse de que el directorio exista
-            var directory = Path.GetDirectoryName(path);
+            var directory = Path.GetDirectoryName(absolutePath);
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
-            using (var stream = new FileStream(path, FileMode.Create))
+            using (var stream = new FileStream(absolutePath, FileMode.Create))
             {
                 await archivoCancion.CopyToAsync(stream);
             }
@@ -58,7 +59,7 @@ namespace SoftfyWeb.Controllers
                 Titulo = dto.Titulo,
                 Genero = dto.Genero,
                 FechaLanzamiento = DateTime.SpecifyKind(dto.FechaLanzamiento, DateTimeKind.Utc),
-                UrlArchivo = path,  // Ruta donde se guarda el archivo
+                UrlArchivo = relativePath,  // Ruta relativa donde se guarda el archivo
                 ArtistaId = artista.Id
             };
 
@@ -67,6 +68,20 @@ namespace SoftfyWeb.Controllers
 
             return Ok(new { mensaje = "Canción creada correctamente" });
         }
+
+        [HttpGet("reproducir/{nombreArchivo}")]
+        [AllowAnonymous]
+        public IActionResult ReproducirCancion(string nombreArchivo)
+        {
+            var rutaArchivo = Path.Combine(Directory.GetCurrentDirectory(), "ArchivosCanciones", nombreArchivo);
+
+            if (!System.IO.File.Exists(rutaArchivo))
+                return NotFound("El archivo no existe.");
+
+            var fileBytes = System.IO.File.ReadAllBytes(rutaArchivo);
+            return File(fileBytes, "audio/mpeg");  // Puedes cambiar el tipo MIME si es otro formato
+        }
+
 
 
 

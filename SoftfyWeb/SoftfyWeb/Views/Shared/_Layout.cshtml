@@ -28,7 +28,7 @@
                     </ul>
 
                     <ul class="navbar-nav">
-                        @if (Context.Request.Cookies["jwt_token"] != null)
+                        @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
                                 <form method="post" asp-controller="VistasAuth" asp-action="Logout" class="form-inline">

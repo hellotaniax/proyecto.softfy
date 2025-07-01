@@ -80,6 +80,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlzdGFzQ2FuY2lvbmVzXE1pc0NhbmNpb25lcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/soft/Documents/softfy/SoftfyWeb_backup/SoftfyWeb/SoftfyWeb/Views/VistasPlaylists/Crear.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlzdGFzUGxheWxpc3RzXENyZWFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/soft/Documents/softfy/SoftfyWeb_backup/SoftfyWeb/SoftfyWeb/Views/VistasPlaylists/Detalle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlzdGFzUGxheWxpc3RzXERldGFsbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/soft/Documents/softfy/SoftfyWeb_backup/SoftfyWeb/SoftfyWeb/Views/VistasPlaylists/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlzdGFzUGxheWxpc3RzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/soft/Documents/softfy/SoftfyWeb_backup/SoftfyWeb/SoftfyWeb/Views/VistasPlaylists/MeGusta.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlzdGFzUGxheWxpc3RzXE1lR3VzdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/soft/Documents/softfy/SoftfyWeb_backup/SoftfyWeb/SoftfyWeb/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

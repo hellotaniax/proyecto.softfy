@@ -219,12 +219,6 @@ namespace SoftfyWeb.Controllers
         }
 
 
-
-        //
-
-        /// <summary>
-        /// Solicita un correo de restablecimiento de contraseña.
-        /// </summary>
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
         {
@@ -251,10 +245,6 @@ namespace SoftfyWeb.Controllers
             return Ok(new { mensaje = "Si el correo existe recibirás instrucciones para restablecer tu contraseña." });
         }
 
-
-        /// <summary>
-        /// Restablece la contraseña dado email, token y nueva contraseña.
-        /// </summary>
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
         {

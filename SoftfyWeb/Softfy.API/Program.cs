@@ -1,13 +1,17 @@
-using Microsoft.EntityFrameworkCore;
-using SoftfyWeb.Data;
-using SoftfyWeb.Services;
-using SoftfyWeb.Modelos;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using SoftfyWeb.Data;
+using SoftfyWeb.Modelos;
+using SoftfyWeb.Services;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -70,12 +74,20 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// Servir archivos estáticos desde la carpeta ArchivosCanciones
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "ArchivosCanciones")),
+    RequestPath = "/ArchivosCanciones"
+});
+
 
 app.UseHttpsRedirection();
 

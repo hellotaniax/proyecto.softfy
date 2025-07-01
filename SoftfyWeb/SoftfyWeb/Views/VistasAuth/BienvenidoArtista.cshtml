@@ -2,7 +2,7 @@
     ViewData["Title"] = "Bienvenido, Artista";
 }
 
-<h1>Bienvenido, @User.Identity.Name</h1>
+<h1>Bienvenido, @ViewBag.ArtistaNombre</h1>
 
 <p>¡Gracias por ser parte de nuestra comunidad de artistas! Desde aquí podrás gestionar y subir tus canciones.</p>
 
@@ -14,7 +14,7 @@
     <a asp-controller="VistasCanciones" asp-action="MisCanciones" class="btn btn-primary">
         Mis Canciones
     </a>
-    <a asp-controller="VistasCanciones" asp-action="Index" class="btn btn-primary">
-        Todas las Canciones
+    <a asp-controller="VistasPlaylists" asp-action="Index" class="btn btn-primary">
+        Mis Playlists
     </a>
 </p>

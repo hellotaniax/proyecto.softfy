@@ -20,6 +20,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SoftfyWeb.Controllers.ArtistasController",
+    "Method": "ObtenerCancionesDelArtista",
+    "RelativePath": "api/Artistas/{id}/canciones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoftfyWeb.Controllers.ArtistasController",
+    "Method": "ObtenerMiPerfil",
+    "RelativePath": "api/Artistas/mi-perfil",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SoftfyWeb.Controllers.AuthController",
     "Method": "ConfirmEmail",
     "RelativePath": "api/Auth/confirmar-email",
@@ -184,6 +210,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoftfyWeb.Controllers.CancionesController",
+    "Method": "ReproducirCancion",
+    "RelativePath": "api/Canciones/reproducir/{nombreArchivo}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nombreArchivo",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
